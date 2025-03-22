@@ -1,14 +1,14 @@
-# https://cses.fi/tira25k/task/3536 
+import heapq
 
 class Tasks:
     def __init__(self):
-        # TODO
+        self.heap = []
 
     def add_task(self, name, priority):
-        # TODO
+        heapq.heappush(self.heap, (-priority, name))
 
     def fetch_task(self):
-        # TODO
+        return heapq.heappop(self.heap)[1]
 
 if __name__ == "__main__":
     tasks = Tasks()

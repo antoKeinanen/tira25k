@@ -1,7 +1,16 @@
-# https://cses.fi/tira25k/task/3533 
+from collections import deque
+
 
 def find_first(size, steps):
-    # TODO
+    if size % 2 == 1:
+        n = steps % (size // 2 + 1)
+        return 2 * n + 1
+    
+    steps %= size
+    if size//2 > steps:
+        return 2*steps+1
+    return 2*(steps-size//2)+2
+
 
 if __name__ == "__main__":
     print(find_first(4, 3)) # 4

@@ -1,7 +1,25 @@
-# https://cses.fi/tira25k/task/3531 
+import heapq
+
 
 def find_boxes(boxes, products):
-    # TODO
+    boxes = sorted([(b, i) for i, b in enumerate(boxes)])
+    products = sorted([(p, i) for i, p in enumerate(products)])
+
+    used_boxes = set()
+
+    result = [-1 for _ in products]
+    for product, i in products:
+        for box, j in boxes:
+            if j in used_boxes:
+                continue
+            if product <= box:
+                used_boxes.add(j)
+                result[i] = box
+                break
+    
+    return result
+
+
 
 if __name__ == "__main__":
     print(find_boxes([4, 4, 6, 8], [5, 5, 4, 6, 1]))
@@ -22,6 +40,6 @@ if __name__ == "__main__":
         boxes.append(i % 100 + 1)
         products.append(3 * i % 97 + 1)
     result = find_boxes(boxes, products)
-    print(result[42]) # 30
-    print(result[1337]) # 35
-    print(result[-1]) # 100
+    print(result[42])  # 30
+    print(result[1337])  # 35
+    print(result[-1])  # 100

@@ -1,7 +1,12 @@
-# https://cses.fi/tira25k/task/3532 
+from collections import deque
 
 def find_first(size, steps):
-    # TODO
+    l = deque(range(1, size+1))
+    for _ in range(steps):
+        a, b = l.popleft(), l.popleft()
+        l.append(b)
+        l.append(a)
+    return l[0]
 
 if __name__ == "__main__":
     print(find_first(4, 3)) # 4
