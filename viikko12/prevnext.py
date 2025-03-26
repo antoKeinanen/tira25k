@@ -1,10 +1,12 @@
-# https://cses.fi/tira25k/task/3541 
+# https://cses.fi/tira25k/task/3541
+
 
 class Node:
     def __init__(self, value):
         self.value = value
         self.left = None
         self.right = None
+
 
 class TreeSet:
     def __init__(self):
@@ -31,25 +33,42 @@ class TreeSet:
                 node = node.right
 
     def prev(self, value):
-        # TODO
+        candidate = None
+        node = self.root
+        while node:
+            if node.value < value:
+                candidate = node.value
+                node = node.right
+            else:
+                node = node.left
+        return candidate
 
     def next(self, value):
-        # TODO
+        candidate = None
+        node = self.root
+        while node:
+            if node.value > value:
+                candidate = node.value
+                node = node.left
+            else:
+                node = node.right
+        return candidate
+
 
 if __name__ == "__main__":
     numbers = TreeSet()
 
+    numbers.add(5)
     numbers.add(3)
     numbers.add(2)
-    numbers.add(5)
     numbers.add(7)
 
-    print(numbers.prev(5)) # 3
-    print(numbers.prev(4)) # 3
-    print(numbers.prev(3)) # 2
-    print(numbers.prev(2)) # None
+    print(numbers.prev(5))  # 3
+    print(numbers.prev(4))  # 3
+    print(numbers.prev(3))  # 2
+    print(numbers.prev(2))  # None
 
-    print(numbers.next(4)) # 5
-    print(numbers.next(5)) # 7
-    print(numbers.next(6)) # 7
-    print(numbers.next(7)) # None
+    print(numbers.next(4))  # 5
+    print(numbers.next(5))  # 7
+    print(numbers.next(6))  # 7
+    print(numbers.next(7))  # None

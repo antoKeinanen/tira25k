@@ -31,10 +31,22 @@ class TreeSet:
                 node = node.right
 
     def min(self):
-        # TODO
+        node = self.root
+        if not node:
+            return None
+        
+        while node.left:
+            node = node.left
+        return node.value
 
     def max(self):
-        # TODO
+        node = self.root
+        if not node:
+            return None
+        
+        while node.right:
+            node = node.right
+        return node.value
 
 if __name__ == "__main__":
     numbers = TreeSet()

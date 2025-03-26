@@ -1,4 +1,4 @@
-# https://cses.fi/tira25k/task/3538
+from random import shuffle
 
 
 class Node:
@@ -11,43 +11,47 @@ class Node:
 class TreeSet:
     def __init__(self):
         self.root = None
-        self.size = 0
+        self.max_depth = -1
 
     def add(self, value):
         if not self.root:
             self.root = Node(value)
-            self.size += 1
+            self.max_depth = 0
             return
 
+        depth = 0
         node = self.root
         while True:
             if node.value == value:
                 return
             if node.value > value:
+                depth += 1
                 if not node.left:
                     node.left = Node(value)
-                    self.size += 1
+                    self.max_depth = max(depth, self.max_depth)
                     return
                 node = node.left
             else:
+                depth += 1
                 if not node.right:
                     node.right = Node(value)
-                    self.size += 1
+                    self.max_depth = max(depth, self.max_depth)
                     return
                 node = node.right
 
-    def __len__(self):
-        return self.size
+    def height(self):
+        return self.max_depth
 
 
 if __name__ == "__main__":
-    numbers = TreeSet()
-    print(len(numbers))  # 0
-    numbers.add(1)
-    print(len(numbers))  # 1
-    numbers.add(2)
-    print(len(numbers))  # 2
-    numbers.add(3)
-    print(len(numbers))  # 3
-    numbers.add(2)
-    print(len(numbers))  # 3
+    ordered = TreeSet()
+    for i in range(1, 1000 + 1):
+        ordered.add(i)
+    print("Järjestyksessä", ordered.height())
+
+    random = TreeSet()
+    data = list(range(1, 1000 + 1))
+    shuffle(data)
+    for i in data:
+        random.add(i)
+    print("Satunnainen", random.height())

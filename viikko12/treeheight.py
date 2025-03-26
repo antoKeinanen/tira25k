@@ -12,7 +12,30 @@ class TreeSet:
         self.max_depth = -1
 
     def add(self, value):
-        # TODO
+        if not self.root:
+            self.root = Node(value)
+            self.max_depth = 0
+            return
+
+        depth = 0
+        node = self.root
+        while True:
+            if node.value == value:
+                return
+            if node.value > value:
+                depth += 1
+                if not node.left:
+                    node.left = Node(value)
+                    self.max_depth = max(depth, self.max_depth)
+                    return
+                node = node.left
+            else:
+                depth += 1
+                if not node.right:
+                    node.right = Node(value)
+                    self.max_depth = max(depth, self.max_depth)
+                    return
+                node = node.right
 
     def height(self):
         return self.max_depth

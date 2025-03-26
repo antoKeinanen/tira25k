@@ -31,7 +31,10 @@ class TreeSet:
                 node = node.right
 
     def remove(self, value):
-        # TODO
+        if not self.root:
+            return
+        
+        if self.root.left
 
     def __repr__(self):
         items = []
