@@ -1,21 +1,47 @@
-# https://cses.fi/tira25k/task/3545 
-
 class CoursePlan:
     def __init__(self):
-        # TODO
+        self.nodes = {}
 
     def add_course(self, course):
-        # TODO
+        self.nodes[course] = []
 
     def add_requisite(self, course1, course2):
-        # TODO
+        self.nodes[course1].append(course2)
+
+    def visit_node(self, node):
+        if self.state[node] == 1:
+            self.cycle = True
+            return
+        if self.state[node] == 2:
+            return
+        
+        self.state[node] = 1
+        for next_node in self.nodes[node]:
+            self.visit_node(next_node)
+        
+        self.state[node] = 2
+        self.order.append(node)
 
     def find_order(self):
-        # TODO
+        self.state = {}
+        for node in self.nodes:
+            self.state[node] = 0
+        
+        self.order = []
+        self.cycle = False
+        
+        for node in self.nodes:
+            if self.state[node] == 0:
+                self.visit_node(node)
+        
+        if self.cycle:
+            return None
+        self.order.reverse()
+        return self.order
+
 
 if __name__ == "__main__":
     courses = CoursePlan()
-
     courses.add_course("Ohpe")
     courses.add_course("Ohja")
     courses.add_course("Tira")

@@ -11,7 +11,8 @@ class UnionFind:
     def union(self, a, b):
         a = self.find(a)
         b = self.find(b)
-        if a == b: return
+        if a == b:
+            return
 
         if self.size[a] > self.size[b]:
             a, b = b, a
@@ -28,7 +29,7 @@ class Kruskal:
         self.edges.append((node_a, node_b, weight))
 
     def construct(self):
-        self.edges.sort(key=lambda x: x[2])
+        self.edges.sort(key=lambda x: x[2], reverse=True)
 
         uf = UnionFind(self.nodes)
         edges_count = 0
@@ -46,25 +47,12 @@ class Kruskal:
         return tree_weight
 
 
-class NewRoads:
-    def __init__(self, n):
-        self.kruskal = Kruskal([i+1 for i in range(n)])
+N = 1000
 
-    def add_road(self, a, b, x):
-        self.kruskal.add_edge(a, b, x)
+kruskal = Kruskal(list(range(1, N + 1)))
 
-    def min_cost(self):
-        return self.kruskal.construct() or -1
+for a in range(1, N+1):
+    for b in range(1, N+1):
+        kruskal.add_edge(a, b, min(a, b))
 
-if __name__ == "__main__":
-    new_roads = NewRoads(4)
-
-    new_roads.add_road(1, 2, 2)
-    new_roads.add_road(1, 3, 5)
-    print(new_roads.min_cost()) # -1
-
-    new_roads.add_road(3, 4, 4)
-    print(new_roads.min_cost()) # 11
-
-    new_roads.add_road(2, 3, 1)
-    print(new_roads.min_cost()) # 7
+print(kruskal.construct())

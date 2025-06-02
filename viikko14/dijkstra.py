@@ -1,4 +1,6 @@
 import heapq
+from timeit import default_timer as timer
+from random import randint, shuffle
 
 
 class Dijkstra:
@@ -35,29 +37,20 @@ class Dijkstra:
         return distances
 
 
-def find_steps(numbers):
-    n = len(numbers)
-    nodes = range(len(numbers))
+if __name__ == "__main__":
+    nodes = [i + 1 for i in range(5_000)]
     dijkstra = Dijkstra(nodes)
 
-    for i, number in enumerate(numbers):
-        if not i + number > n - 1:
-            dijkstra.add_edge(i, i + number, number)
-        if not i - number < 0:
-            dijkstra.add_edge(i, i - number, number)
+    for b in range(11, 5_001):
+        for a in range(1, b + 1):
+            if a < b and b - a < 10:
+                dijkstra.add_edge(a, b, randint(1, 1_000))
 
-    distances = dijkstra.find_distances(0)
-
-    return -1 if distances[n - 1] == float("inf") else distances[n - 1]
+    for edge in dijkstra.graph.values():
+        shuffle(edge)
 
 
-if __name__ == "__main__":
-    print(find_steps([1, 1, 1, 1]))  # 3
-    print(find_steps([3, 2, 1]))  # -1
-    print(find_steps([3, 5, 2, 2, 2, 3, 5]))  # 10
-    print(find_steps([7, 5, 3, 1, 4, 2, 4, 6, 1]))  # 32
-
-    numbers = []
-    for i in range(10**5):
-        numbers.append(1337 * i % 100 + 1)
-    print(find_steps(numbers))  # 100055
+    print("Aloitetaan algoritmi")
+    start = timer()
+    dijkstra.find_distances(1)
+    print("Valmis ajassa:", timer() - start)

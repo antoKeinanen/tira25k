@@ -1,10 +1,9 @@
-# https://cses.fi/tira25k/task/3542 
-
 class Node:
     def __init__(self, value):
         self.value = value
         self.left = None
         self.right = None
+
 
 class TreeSet:
     def __init__(self):
@@ -31,10 +30,44 @@ class TreeSet:
                 node = node.right
 
     def remove(self, value):
-        if not self.root:
+        parent = None
+        node = self.root
+
+        while node and node.value != value:
+            parent = node
+
+            if node.value > value:
+                node = node.left
+            else:
+                node = node.right
+
+        if not node:
             return
-        
-        if self.root.left
+
+        if node.left and node.right:
+            successor_parent = node
+            successor = node.right
+
+            while successor.left:
+                successor_parent = successor
+                successor = successor.left
+
+            node.value, successor.value = successor.value, node.value
+            node = successor
+            parent = successor_parent
+
+        child = node.left if node.left else node.right
+        if not parent:
+            self.root = child
+        elif not node.left and not node.right:
+            if parent.left == node:
+                parent.left = node.left
+            else:
+                parent.right = node.right
+        elif parent.left == node:
+            parent.left = child
+        else:
+            parent.right = child
 
     def __repr__(self):
         items = []
@@ -48,23 +81,21 @@ class TreeSet:
         items.append(node.value)
         self.traverse(node.right, items)
 
+
 if __name__ == "__main__":
     numbers = TreeSet()
 
     numbers.add(3)
+    numbers.remove(1)
+    print(numbers) # [3]
+
+    numbers.add(1)
+    numbers.remove(4)
+    print(numbers) # [1, 3]
+
     numbers.add(2)
-    numbers.add(5)
-    numbers.add(7)
-    print(numbers) # [2, 3, 5, 7]
-    
-    numbers.remove(3)
-    print(numbers) # [2, 5, 7]
+    numbers.remove(1)
+    print(numbers) # [2, 3]
 
-    numbers.remove(7)
-    print(numbers) # [2, 5]
-
-    numbers.remove(2)
-    print(numbers) # [5]
-
-    numbers.remove(5)
-    print(numbers) # []
+    numbers.add(1)
+    print(numbers) # [1, 2, 3]
